@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CotaWeb</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="toast-container"></div>
+
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-box">
+      <p id="modal-texto">Tem certeza?</p>
+      <div class="modal-actions">
+        <button id="modal-sim" class="btn-sim">Confirmar</button>
+        <button id="modal-nao" class="btn-nao">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-import" class="modal-overlay">
+    <div class="modal-box modal-import-box">
+      <h3 id="import-titulo">Importar dados</h3>
+      <p id="import-dica" class="import-dica"></p>
+      <input type="hidden" id="import-tipo" />
+      <textarea id="import-textarea" rows="10" placeholder="Cole o texto aqui..."></textarea>
+      <div class="modal-actions">
+        <button class="btn-sim" onclick="processarImportacao()">Importar</button>
+        <button class="btn-nao" onclick="fecharImportacao()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>CotaWeb</h1>
+
+    <h2>Fornecedores</h2>
+
+    <input type="text" id="nomeFornecedor" placeholder="Nome do fornecedor *" autocomplete="off" />
+    <input type="text" id="telFornecedor" placeholder="Telefone * (ex: 11987654321)" autocomplete="off" oninput="mascaraTelefone(this)" maxlength="15" />
+    <input type="text" id="emailFornecedor" placeholder="E-mail (opcional)" autocomplete="off" />
+    <input type="text" id="cnpjFornecedor" placeholder="CNPJ (opcional)" autocomplete="off" />
+    <input type="text" id="contatoFornecedor" placeholder="Nome do contato (opcional)" autocomplete="off" />
+    <button id="btn-add-fornecedor" onclick="addFornecedor()">Adicionar Fornecedor</button>
+
+    <div class="btn-row">
+      <button class="btn-secundario" onclick="abrirImportacao('fornecedores')">📥 Colar do WhatsApp</button>
+      <button class="btn-secundario" onclick="exportarCSV('fornecedores')">⬇ Exportar CSV</button>
+      <button class="btn-secundario" onclick="exportarJSON('fornecedores')">⬇ Exportar JSON</button>
+    </div>
+
+    <div class="list" id="listaFornecedores"></div>
+
+    <h2>Lista de Compras</h2>
+
+    <input type="text" id="produto" placeholder="Nome do produto" autocomplete="off" />
+    <input type="number" id="qtd" placeholder="Quantidade" min="0.01" step="0.01" />
+    <select id="unidade">
+      <option value="un">Unidades (un)</option>
+      <option value="kg">Quilogramas (kg)</option>
+      <option value="g">Gramas (g)</option>
+      <option value="L">Litros (L)</option>
+      <option value="ml">Mililitros (ml)</option>
+      <option value="cx">Caixas (cx)</option>
+      <option value="sacos">Sacos</option>
+      <option value="m">Metros (m)</option>
+      <option value="pct">Pacotes (pct)</option>
+    </select>
+    <button id="btn-add-item" onclick="addItem()">Adicionar Item</button>
+
+    <div class="btn-row">
+      <button class="btn-secundario" onclick="abrirImportacao('itens')">📥 Colar do WhatsApp</button>
+      <button class="btn-secundario" onclick="exportarCSV('itens')">⬇ Exportar CSV</button>
+      <button class="btn-secundario" onclick="exportarJSON('itens')">⬇ Exportar JSON</button>
+    </div>
+
+    <div class="list" id="listaItens"></div>
+
+    <button class="finalizar" id="btn-whatsapp" onclick="enviarWhatsApp()">
+      📲 Enviar por WhatsApp
+    </button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

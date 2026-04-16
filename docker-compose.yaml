@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: db_formulario
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: senha
+      POSTGRES_DB: db_formulario
+    ports:
+      - "5435:5432"
+    volumes:
+      - db_formulario_data:/var/lib/postgresql/data
+
+volumes:
+  db_formulario_data:

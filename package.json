@@ -1,0 +1,33 @@
+{
+  "name": "bee-fibra-api",
+  "version": "1.0.0",
+  "description": "API de gestão de clientes - Bee Fibra",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "migrate": "DB_HOST=localhost DB_PORT=5435 DB_NAME=db_formulario DB_USER=postgres DB_PASSWORD=senha tsx node_modules/.bin/knex --knexfile src/db/knexfile.ts migrate:latest",
+    "seed:cotaweb": "DB_HOST=localhost DB_PORT=5435 DB_NAME=db_formulario DB_USER=postgres DB_PASSWORD=senha tsx node_modules/.bin/knex --knexfile src/db/knexfile.ts seed:run --specific=002_cotaweb_dados.ts",
+    "seed": "DB_HOST=localhost DB_PORT=5435 DB_NAME=db_formulario DB_USER=postgres DB_PASSWORD=senha tsx node_modules/.bin/knex --knexfile src/db/knexfile.ts seed:run",
+    "migrate:rollback": "DB_HOST=localhost DB_PORT=5435 DB_NAME=db_formulario DB_USER=postgres DB_PASSWORD=senha tsx node_modules/.bin/knex --knexfile src/db/knexfile.ts migrate:rollback",
+    "migrate:make": "tsx node_modules/.bin/knex --knexfile src/db/knexfile.ts migrate:make"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/multipart": "^8.3.0",
+    "dotenv": "^17.4.2",
+    "exceljs": "^4.4.0",
+    "fastify": "^5.8.4",
+    "knex": "^3.1.0",
+    "pg": "^8.13.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.21.0",
+    "typescript": "^5.5.4"
+  }
+}
