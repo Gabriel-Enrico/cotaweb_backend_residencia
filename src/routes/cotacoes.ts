@@ -108,7 +108,7 @@ export async function cotacaoRoutes(app: FastifyInstance) {
     if (!params) return;
     const dados = await svc.buscarPorToken(params.token);
     if (!dados) return reply.status(404).send({ error: "Link inválido ou expirado" });
-    if (dados.cotacao_status !== "enviada" && dados.cf_status !== "respondido") {
+    if (dados.cotacao_status !== "enviada" || dados.cf_status === "respondido") {
       return reply.status(400).send({ error: "Esta cotação não está disponível para resposta" });
     }
     return reply.send(dados);

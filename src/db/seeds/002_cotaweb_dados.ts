@@ -55,24 +55,28 @@ export async function seed(knex: Knex): Promise<void> {
       departamento_id: depMercearia.id,
       produto: "Arroz Agulhinha T1 5kg",
       unidade: "pct",
+      quantidade: 10,
     },
     {
       restaurante_id: restauranteId,
       departamento_id: depMercearia.id,
       produto: "Óleo de Soja 900ml",
       unidade: "cx",
+      quantidade: 5,
     },
     {
       restaurante_id: restauranteId,
       departamento_id: depProteinas.id,
       produto: "Alcatra Limpa",
       unidade: "kg",
+      quantidade: 20,
     },
     {
       restaurante_id: restauranteId,
       departamento_id: depProteinas.id,
       produto: "Peito de Frango",
       unidade: "kg",
+      quantidade: 15,
     },
   ]);
 

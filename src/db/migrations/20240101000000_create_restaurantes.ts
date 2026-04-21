@@ -6,9 +6,9 @@ export async function up(knex: Knex): Promise<void> {
         table.increments('id').primary();
         table.string('nome', 100).notNullable();
         table.string('telefone', 15).notNullable();
-        table.string('email', 100).notNullable().unique();
+        table.string('email', 100).nullable();
         table.string('cnpj', 18).nullable().unique();
-        table.string('responsavel', 100).nullable;
+        table.string('responsavel', 100).nullable();
         table
             .enum('status', ['degustacao', 'ativo', 'suspenso', 'cancelado'])
             .notNullable()

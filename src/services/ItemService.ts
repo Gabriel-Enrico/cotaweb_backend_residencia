@@ -6,6 +6,7 @@ export interface Item {
   departamento_id: number | null;
   produto: string;
   unidade: string;
+  quantidade: number;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -15,12 +16,14 @@ export interface CreateItemDTO {
   departamento_id?: number;
   produto: string;
   unidade?: string;
+  quantidade?: number;
 }
 
 export interface UpdateItemDTO {
   departamento_id?: number | null;
   produto?: string;
   unidade?: string;
+  quantidade?: number;
 }
 
 export class ItemService {
