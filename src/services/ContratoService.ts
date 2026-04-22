@@ -16,14 +16,17 @@ export class ContratoService {
   async listar(page = 1, limit = 20): Promise<PaginatedResponse<Contrato>> {
     const offset = (page - 1) * limit;
 
-    const query = db("contratos")
+    const [{ count }] = await db("contratos")
+      .join("clientes", "contratos.cliente_id", "clientes.id")
+      .count("contratos.id as count");
+    const total = Number(count);
+
+    const data = await db("contratos")
       .join("clientes", "contratos.cliente_id", "clientes.id")
       .select("contratos.*", "clientes.nome as cliente_nome", "clientes.cpf as cliente_cpf")
-      .orderBy("contratos.created_at", "desc");
-
-    const [{ count }] = await query.clone().count("contratos.id as count");
-    const total = Number(count);
-    const data = await query.limit(limit).offset(offset);
+      .orderBy("contratos.created_at", "desc")
+      .limit(limit)
+      .offset(offset);
 
     return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }

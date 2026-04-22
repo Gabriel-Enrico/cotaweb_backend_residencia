@@ -16,9 +16,24 @@ export class CobrancaService {
     const limit = filtros.limit || 20;
     const offset = (page - 1) * limit;
 
-    const query = db("cobrancas")
-      .join("clientes", "cobrancas.cliente_id", "clientes.id")
-      .join("contratos", "cobrancas.contrato_id", "contratos.id")
+    const buildBase = () => {
+      const q = db("cobrancas")
+        .join("clientes", "cobrancas.cliente_id", "clientes.id")
+        .join("contratos", "cobrancas.contrato_id", "contratos.id");
+
+      if (filtros.cliente_id) q.where("cobrancas.cliente_id", filtros.cliente_id);
+      if (filtros.contrato_id) q.where("cobrancas.contrato_id", filtros.contrato_id);
+      if (filtros.status) q.where("cobrancas.status", filtros.status);
+      if (filtros.data_inicio) q.where("cobrancas.data_vencimento", ">=", filtros.data_inicio);
+      if (filtros.data_fim) q.where("cobrancas.data_vencimento", "<=", filtros.data_fim);
+
+      return q;
+    };
+
+    const [{ count }] = await buildBase().count("cobrancas.id as count");
+    const total = Number(count);
+
+    const data = await buildBase()
       .select(
         "cobrancas.*",
         "clientes.nome as cliente_nome",
@@ -26,17 +41,9 @@ export class CobrancaService {
         "contratos.numero_contrato",
         "contratos.plano"
       )
-      .orderBy("cobrancas.data_vencimento", "asc");
-
-    if (filtros.cliente_id) query.where("cobrancas.cliente_id", filtros.cliente_id);
-    if (filtros.contrato_id) query.where("cobrancas.contrato_id", filtros.contrato_id);
-    if (filtros.status) query.where("cobrancas.status", filtros.status);
-    if (filtros.data_inicio) query.where("cobrancas.data_vencimento", ">=", filtros.data_inicio);
-    if (filtros.data_fim) query.where("cobrancas.data_vencimento", "<=", filtros.data_fim);
-
-    const [{ count }] = await query.clone().count("cobrancas.id as count");
-    const total = Number(count);
-    const data = await query.limit(limit).offset(offset);
+      .orderBy("cobrancas.data_vencimento", "asc")
+      .limit(limit)
+      .offset(offset);
 
     return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
